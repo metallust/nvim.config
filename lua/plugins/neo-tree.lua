@@ -23,6 +23,7 @@ return {
             }
         }
         vim.keymap.set("n", "<C-b>", ":Neotree filesystem toggle right<CR>")
+        --vim.keymap.set("n", "<C-b>f", ":Neotree filesystem ")
     end
 }
 

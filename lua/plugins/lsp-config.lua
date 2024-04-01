@@ -1,40 +1,44 @@
 return {
-	{
-		"williamboman/mason.nvim",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "tsserver", "gopls" },
-                automatic_installation = true,
-			})
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.tsserver.setup({
-				capabilities = capabilities,
-			})
-           lspconfig.gopls.setup({
-               capabilities = capabilities,
-            })
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
-			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
-			vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, {})
-			vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
-		end,
-	},
-}
+    "neovim/nvim-lspconfig",
+    --event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        --    { "antosha417/nvim-lsp-file-operations", config = true },
+    },
+    config = function()
+        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        local lspconfig = require("lspconfig")
 
+        --changing the sign
+        local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+        for type, icon in pairs(signs) do
+            local hl = "DiagnosticSign" .. type
+            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+        end
+
+        local servers = {"tsserver", "lua_ls", "gopls", "html", "cssls", "tailwindcss", "pyright", "eslint"}
+        for _, lsp in pairs(servers) do
+            lspconfig[lsp].setup({
+                capabilities = capabilities,
+            })
+        end
+
+        -- configure prisma orm server
+        --lspconfig["prismals"].setup({
+        --    capabilities = capabilities,
+        --    on_attach = on_attach,
+        --})
+
+        lspconfig["emmet_ls"].setup({
+            capabilities = capabilities,
+            filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+        })
+
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
+        vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, {})
+        vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+    end,
+}

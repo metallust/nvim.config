@@ -14,8 +14,11 @@ vim.g.mapleader = " "
 vim.g.have_nerd_font = true
 vim.opt.showmode = false
 
-vim.opt.clipboard = 'unnamedplus'
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣'}
+--vim.opt.clipboard = 'unnamedplus'
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
+--open vim defalut explorer
+vim.keymap.set('n',"<leader>pv", vim.cmd.Ex)
 
 -- Remap Alt+k and Alt+j to move the visually selected lines up
 vim.api.nvim_set_keymap('v', '<M-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
@@ -31,7 +34,11 @@ vim.api.nvim_set_keymap('v', '<A-S-j>', ":t '>+1<CR>", { noremap = true, silent 
 vim.api.nvim_set_keymap('n', '<A-S-k>', ":t .-1<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<A-S-j>', ":t .+1<CR>", { noremap = true, silent = true })
 
--- ctrl-d and ctrl-u 
+-- ctrl-d and ctrl-u
 vim.api.nvim_set_keymap('n', '<C-d>', '<C-d>zz', { noremap = true })
 vim.api.nvim_set_keymap('n', '<C-u>', '<C-u>zz', { noremap = true })
+
+
+--vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+--vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
