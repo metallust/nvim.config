@@ -14,7 +14,7 @@ vim.g.mapleader = " "
 vim.g.have_nerd_font = true
 vim.opt.showmode = false
 
---vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard = 'unnamedplus'
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 --open vim defalut explorer
