@@ -15,8 +15,9 @@ vim.g.have_nerd_font = true
 vim.opt.showmode = false
 
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.list = true
 --open vim defalut explorer
 vim.keymap.set('n',"<leader>pv", vim.cmd.Ex)
 
@@ -38,6 +39,20 @@ vim.api.nvim_set_keymap('n', '<A-S-j>', ":t .+1<CR>", { noremap = true, silent =
 vim.api.nvim_set_keymap('n', '<C-d>', '<C-d>zz', { noremap = true })
 vim.api.nvim_set_keymap('n', '<C-u>', '<C-u>zz', { noremap = true })
 
+vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>tt', vim.diagnostic.show)
+
+
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.highlight.on_yank()`
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
 
 --vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 --vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })

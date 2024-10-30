@@ -36,23 +36,24 @@ return {
                 formatting.stylua, -- lua formatter
                 formatting.isort,
                 formatting.black,
+                formatting.gopls,
                 diagnostics.pylint,
             },
-            -- configure format on save
-            on_attach = function(client, bufnr)
-                if client.supports_method("textDocument/formatting") then
-                    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            -- 1
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("lsp", { clear = true }),
+                callback = function(args)
+                    -- 2
                     vim.api.nvim_create_autocmd("BufWritePre", {
-                        group = augroup,
-                        buffer = bufnr,
+                        -- 3
+                        buffer = args.buf,
                         callback = function()
-                            vim.lsp.buf.format({ bufnr = bufnr })
+                            -- 4 + 5
+                            vim.lsp.buf.format { async = false, id = args.data.client_id }
                         end,
                     })
-                else
-                    print("formatting...")
                 end
-            end,
+            })
         })
     end,
 }

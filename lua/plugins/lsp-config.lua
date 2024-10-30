@@ -16,7 +16,7 @@ return {
             vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
         end
 
-        local servers = {"tsserver", "lua_ls", "gopls", "html", "cssls", "tailwindcss", "pyright", "eslint"}
+        local servers = { "tsserver", "lua_ls", "gopls", "html", "tailwindcss", "pyright", "eslint", "svelte" }
         for _, lsp in pairs(servers) do
             lspconfig[lsp].setup({
                 capabilities = capabilities,
@@ -29,9 +29,34 @@ return {
         --    on_attach = on_attach,
         --})
 
+        -- cssls
+        lspconfig["cssls"].setup({
+            capabilities = capabilities,
+            settings = {
+                css = {
+                    validate = true,
+                    lint = {
+                        unknownAtRules = "ignore"
+                    }
+                },
+                scss = {
+                    validate = true,
+                    lint = {
+                        unknownAtRules = "ignore"
+                    }
+                },
+                less = {
+                    validate = true,
+                    lint = {
+                        unknownAtRules = "ignore"
+                    }
+                },
+            },
+        })
+
         lspconfig["emmet_ls"].setup({
             capabilities = capabilities,
-            filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+            filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
         })
 
         vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
